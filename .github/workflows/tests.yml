@@ -2,17 +2,8 @@ name: Tests
 on:
   pull_request
 jobs:
-  install:
-    name: Create new build on EAS
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup repo
-        uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 19.x
-      - name: Authenticate with private NPM package
-        run: cd auth && echo "//npm.pkg.github.com/:_authToken=${{ secrets.TOKEN }}" > ~/.npmrc
-      - name: run tests
-        run: cd auth && npm install && npm run test:ci
+      - uses: actions/checkout@v2
+      - run: cd auth && echo -e "//npm.pkg.github.com/:_authToken=${‌{secrets.GITHUB_TOKEN}}\n" > .npmrc && npm install && npm run test:ci
