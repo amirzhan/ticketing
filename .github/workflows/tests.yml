@@ -10,3 +10,4 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.TOKEN }}" > ~/.npmrc
       - run: cd auth && npm install && npm run test:ci
+
