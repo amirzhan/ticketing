@@ -15,4 +15,4 @@ jobs:
       - name: Authenticate with private NPM package
         run: cd auth && echo "//npm.pkg.github.com/:_authToken=${{ secrets.TOKEN }}" > ~/.npmrc
       - name: run tests
-        run: npm install && npm run test:ci
+        run: cd auth && npm install && npm run test:ci
