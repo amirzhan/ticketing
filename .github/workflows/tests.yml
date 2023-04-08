@@ -1,24 +1,18 @@
 name: Tests
-
 on:
   pull_request
-
 jobs:
-  build:
-    permissions:
-        contents: read
-        packages: read
-    
+  install:
+    name: Create new build on EAS
     runs-on: ubuntu-latest
     steps:
-    - name: Setup node and npm
-      uses: actions/checkout@v2
-      with:
-        node-version: 19
-        cache: npm
-        registry-url: "https://npm.pkg.github.com"
-    - name: install npm deps
-#       uses: actions/checkout@v2
-      run: cd auth && npm install && npm run test:ci
-      env:
-        NODE_AUTH_TOKEN: ${{ github.token }}
+      - name: Setup repo
+        uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 19.x
+      - name: Authenticate with private NPM package
+        run: cd auth && echo "//npm.pkg.github.com/:_authToken=${{ secrets.TOKEN }}" > ~/.npmrc
+      - name: run tests
+        run: npm install && npm run test:ci
