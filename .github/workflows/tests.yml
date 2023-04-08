@@ -5,7 +5,13 @@ on:
 
 jobs:
   build:
+    permissions:
+        contents: read
+        packages: read
+    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: cd auth && npm install && npm run test:ci
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
